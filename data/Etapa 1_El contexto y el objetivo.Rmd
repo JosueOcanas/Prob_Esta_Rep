@@ -1,0 +1,53 @@
+---
+title: 'Etapa 1: El contexto y el objetivo'
+author: "Sebastian Hernández Gómez"
+date: "2025-09-29"
+output: word_document
+---
+
+#Exploracion de la base datos
+Descargamos las 6 bases de datos de las respuestas obtenidas con la encuesta. [2019-2024]
+```{r}
+library(tidyverse)
+library(here)
+
+M19 = read.csv("Datos_molec_2019.csv")
+M20 = read.csv("Datos_molec_2020.csv")
+M21 = read.csv("Datos_molec_2021.csv")
+M22 = read.csv("Datos_molec_2022.csv")
+M23 = read.csv("Datos_molec_2023.csv")
+M24 = read.csv("Datos_molec_2024.csv")
+```
+
+Descargamos los 6 diccionario para cada una de las encuestas, apesar de que la informacion con la cual estaremos trabjando sera las bases de respuestas.
+```{r}
+Dicc19 = read.csv("Diccionario_molec_2019.csv")
+Dicc20 = read.csv("Diccionario_molec_2020-1.csv")
+Dicc21 = read.csv("Diccionario_molec_2021-1.csv")
+Dicc22 = read.csv("Diccionario_molec_2022-1.csv")
+Dicc23 = read.csv("Diccionario_molec_2023-1.csv")
+Dicc24 = read.csv("Diccionario_molec_2024-1.csv")
+```
+
+
+```{r}
+summary(M20)
+summary(M21)
+summary(M22)
+summary(M23)
+summary(M24)
+```
+
+```{r}
+M20final = M20[c(2,10:11,13:100,102:108)]
+M21final = M21[c(2,10:11,13:100,102:108)]
+M22final = M22[c(2,10:11,13:100,102:108)]
+M23final = M23[c(2,10:11,13:100,102:108)]
+M24final = M24[c(2,10:11,13:100,102:108)]
+```
+
+```{r}
+summary(M20final)
+```
+
+
