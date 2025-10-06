@@ -14,12 +14,17 @@ Mfinal = read.csv("data_MOLEC.csv")
 
 #Vamos a hacer las gráficas de tiempo leido vs libros leidos y los vamos a segmentar en nivel educativo y trabajo para ver si esto hace una diferencia en lo que una persona lee. (con esto podemos evitarnos hacer as desviaciones estandars de los datos que queremos segmentar)
 
+#26 <-- tiempo leido 
+#nivel escuela --> nivel
+#trabajo o no --> cond_act
+
 #Nivel educativo
 ```{r}
-plot(
-  
-)
+ggplot(Mfinal, aes(x=p26, y=material_leido,color=nivel))+ geom_point(size=3,alpha=0.7) + labs(title="Libros leídos V.S. tiempo que lee continuamente", subtitle="Segmentado por nivel educativo", x="Tiempo que lee continuamente",y="Material leido", color="Nivel educativo")+ theme_minimal()
 ```
 
+#Trabajo 
+```{r}
 
+```
 
