@@ -1,0 +1,25 @@
+---
+title: "Etapa 2 gráficas (J)"
+output: html_notebook
+---
+#Gráficas de libros leidos y tiempo seccionados 
+
+```{r}
+library(tidyverse)
+library(here)
+
+Mfinal = read.csv("data_MOLEC.csv")
+
+```
+
+#Vamos a hacer las gráficas de tiempo leido vs libros leidos y los vamos a segmentar en nivel educativo y trabajo para ver si esto hace una diferencia en lo que una persona lee. (con esto podemos evitarnos hacer as desviaciones estandars de los datos que queremos segmentar)
+
+#Nivel educativo
+```{r}
+plot(
+  
+)
+```
+
+
+
