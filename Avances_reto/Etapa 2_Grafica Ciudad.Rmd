@@ -1,0 +1,90 @@
+---
+title: "Etapa 2_Grafica (S)"
+output: html_document
+---
+#Gráficas de libros leidos y tiempo seccionados 
+
+```{r}
+library(tidyverse)
+library(here)
+
+Mfinal = read.csv("DATA.csv")
+
+```
+
+#Vamos a hacer las gráficas de tiempo leido vs libros leidos y los vamos a segmentr entidad  para ver si esto hace una diferencia en lo que una persona lee.La entidades la vamos a dividir por regiones; Norte, Centro y Sur (con esto podemos evitarnos hacer as desviaciones estandars de los datos que queremos segmentar)
+
+#Entidad; Grafica de distribucion de todas la entidad
+```{r}
+library(dplyr)
+library(ggplot2)
+
+# -----------------------
+# 1️⃣ Tabla de mapeo
+# -----------------------
+clave_region <- data.frame(
+  entidad = as.character(1:32),  # convertir a character
+  region  = c(
+    "Centro","Norte","Norte","Sur","Norte","Sur","Sur","Norte",
+    "Centro","Norte","Centro","Sur","Centro","Sur","Centro","Centro",
+    "Centro","Norte","Norte","Sur","Sur","Centro","Sur","Norte",
+    "Norte","Norte","Sur","Norte","Centro","Sur","Sur","Norte"
+  ),
+  stringsAsFactors = FALSE
+)
+
+# -----------------------
+# 2️⃣ Asegurar que Mfinal$entidad sea character
+# -----------------------
+Mfinal$entidad <- as.character(Mfinal$entidad)
+
+# -----------------------
+# 3️⃣ Join con el mapa de regiones
+# -----------------------
+Mfinal <- Mfinal %>%
+  left_join(clave_region, by = "entidad")
+
+# Verificar si la columna region se creó
+head(Mfinal[, c("entidad","region")], 10)
+
+```
+
+#Grafica de distribucion para Norte, para Centro, para Sur
+```{r}
+palette_region <- c("Norte"="#1F77B4","Centro"="#E69F00","Sur"="#009E73")
+
+ggplot(Mfinal, aes(x=p26, y=material_leido, color=region)) +
+  geom_point(size=3, alpha=0.8) +
+  scale_color_manual(values=palette_region) +
+  labs(
+    title="Libros leídos vs. tiempo que lee continuamente",
+    subtitle="Segmentado por región del país",
+    x="Tiempo que lee continuamente",
+    y="Material leído",
+    color="Región"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+# Filtrar Norte
+ggplot(Mfinal %>% filter(region=="Norte"), aes(x = p26, y = material_leido)) +
+  geom_point(color="#1F77B4", size=3, alpha=0.8) +
+  labs(title="Norte", x="Tiempo que lee continuamente", y="Material leído") +
+  theme_minimal()
+
+# Filtrar Centro
+ggplot(Mfinal %>% filter(region=="Centro"), aes(x = p26, y = material_leido)) +
+  geom_point(color="#E69F00", size=3, alpha=0.8) +
+  labs(title="Centro", x="Tiempo que lee continuamente", y="Material leído") +
+  theme_minimal()
+
+# Filtrar Sur
+ggplot(Mfinal %>% filter(region=="Sur"), aes(x = p26, y = material_leido)) +
+  geom_point(color="#009E73", size=3, alpha=0.8) +
+  labs(title="Sur", x="Tiempo que lee continuamente", y="Material leído") +
+  theme_minimal()
+
+```
+
