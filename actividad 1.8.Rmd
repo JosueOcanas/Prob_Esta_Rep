@@ -1,0 +1,163 @@
+---
+title: "Actividad 1.8"
+output:
+  word_document: default
+  html_notebook: default
+---
+
+```{r}
+print("Problema 1   El Mantenimiento\nEl tiempo requerido en horas por semana para mantenimiento de una máquina es una variable aleatoria gamma con parámetros  α=3,β=2. 
+	Encuentre la probabilidad de que en una semana el tiempo de mantenimiento sea mayor a 8 horas. 
+	Encuentre la probabilidad de que en una semana el tiempo de mantenimiento esté entre 6 y 9 horas
+	Encuentre la probabilidad de que en una semana el tiempo de mantenimiento sea exactamente de 8 horas. 
+	Encuentre el valor del número de horas que sólo el 5% le supera de todos los casos. 
+	Hallar el Rango intercuartílico de la distribución (
+	Encuentre el valor de la media y varianza
+	¿Cuál será la probabilidad de que el número de horas exceda en 2 desviaciones estándar a su valor esperado?
+	Halle la fórmula de la f.d.p para este caso y su dominio. 
+	Grafique la fdp y la fda de este problema.
+
+R: 1) 0.23810, 2) 0.24961, 3) 0, 4) 12.59159, 5) 4.3862, 6) 6, 12, 7) 0.04419, …")
+
+#1) Encuentre la probabilidad de que en una semana el tiempo de mantenimiento sea mayor a 8 horas. 
+p_menor_8hr <- pgamma(8,shape=3,scale=2)
+p_mayor_8hr <- 1-p_menor_8hr
+cat("\nprobabilidad de que en una semana el tiempo de mantenimiento sea mayor a 8 horas:",p_mayor_8hr)
+
+#2) Encuentre la probabilidad de que en una semana el tiempo de mantenimiento esté entre 6 y 9 horas
+pmenor_6hr <- pgamma(6,shape=3,scale=2)
+pmenor_9hr <- pgamma(9,shape=3,scale=2)
+p_entre_6_y_9 <- pmenor_9hr-pmenor_6hr
+cat("\n\nprobabilidad de que en una semana el tiempo de mantenimiento esté entre 6 y 9 horas:",p_entre_6_y_9)
+
+#3)	Encuentre la probabilidad de que en una semana el tiempo de mantenimiento sea exactamente de 8 horas. 
+cat("\n\nprobabilidad de que en una semana el tiempo de mantenimiento sea exactamente de 8 horas: 0. Sabemos que no puedeser exactamente 8 ya que en tiempo se necesita un rango, por eso la probabilidad de que sea exactamente 8 es 0 porque 8 no es un rango es un valor exacto")
+
+#4) Encuentre el valor del número de horas que sólo el 5% le supera de todos los casos. 
+
+numero_horas <- qgamma(0.95,shape=3,scale=2)
+cat("\n\nNúmero de horas que sólo el 5% le supera de todos los casos:",numero_horas)
+
+#5)	Hallar el Rango intercuartílico de la distribución 
+
+datos_abajo_25prc <- qgamma(0.25,shape=3,scale=2)
+datos_abajo_75prc <- qgamma(0.75,shape=3,scale=2)
+rango <- datos_abajo_75prc-datos_abajo_25prc
+cat("\n\nRango intercuartílico de la distribución:",rango)
+
+#6) 	Encuentre el valor de la media y varianza
+
+media <- 2*3
+varianza <- 3*2**2
+
+cat("\n\nLa media es:",media,"Y su varianza es:",varianza)
+
+#7) 	¿Cuál será la probabilidad de que el número de horas exceda en 2 desviaciones estándar a su valor esperado?
+
+desv_estd <- sqrt((2**2)*3)
+valor_esperado <- media 
+x_new <-valor_esperado+2*desv_estd
+
+prob_exeda <- 1- pgamma(x_new,shape=3,scale = 2)
+cat("\n\nprobabilidad de que el número de horas exceda en 2 desviaciones estándar a su valor esperado:",prob_exeda)
+
+#8) Halle la fórmula de la f.d.p para este caso y su dominio. 
+
+B <- 2
+A <- 3
+G <- factorial(A-1)
+betha_y_gamma_denominador <- (B**A)*G
+primera_parte <- 1/betha_y_gamma_denominador  
+
+cat(primera_parte,"x^(3-1) * e^(-x/2)  --> si x>0, entonces x ∈ (0,∞)\n\n 0 --> si x<=0")
+
+#9)	Grafique la fdp y la fda de este problema.
+
+alpha <- 3
+beta  <- 2
+rango <- media+4*varianza
+
+x <- seq(0, rango, length.out = 1000)
+
+f_x <- dgamma(x, shape = alpha, scale = beta)
+F_x <- pgamma(x, shape = alpha, scale = beta)
+
+par(mfrow = c(1,2), mar = c(4.5,4,2,1))
+
+# fdp
+plot(x, f_x, type = "l", lwd = 2, xlab = "x (horas)", ylab = "f(x)", main = "f.d.p. Gamma(α=3, β=2)")
+grid()
+
+# fda
+plot(x, F_x, type = "l", lwd = 2, xlab = "x (horas)", ylab = "F(x)", main = "f.d.a. Gamma(α=3, β=2)")
+grid()
+
+
+
+```
+
+
+```{r}
+print("Problema 2 Drive Thue
+El tiempo de llegada a una ventanilla de toma de órdenes desde un automóvil de un cierto comercio de hamburguesas sigue un proceso de Poisson con un promedio 12 de llegadas por hora en hora pico. T es el tiempo de espera hasta la llegada del tercer cliente. 
+	¿Cuál será la probabilidad de que el tiempo de espera de tres personas sea a lo más de 20 minutos?
+	¿Cuál es la probabilidad de que el tiempo de espera de una persona esté entre 5 y 10 segundos?
+	¿Cuál será la probabilidad de que en 15 minutos lleguen a lo más tres personas?
+	¿Cuál es la probabilidad de que el tiempo de espera de tres personas esté entre 5 y 10 segundos?
+	Determine la media y varianza del tiempo de espera de tres personas.
+	¿Cuál será la probabilidad de que el tiempo de espera de tres personas exceda una desviación estándar arriba de la media?
+	Halle la fórmula de la f.d.p para este caso y su dominio. Grafíquela.")
+
+#R: 0.7619, 0.0163, 0.6472, 0.00000525, 0.25, 0.0208, 0.1491,  f(x)=864x^2 e^(-12x)
+
+#1)	¿Cuál será la probabilidad de que el tiempo de espera de tres personas sea a lo más de 20 minutos?
+lambda <- 12
+beta <- 1/lambda
+alpha <- 3
+
+tres_a_lo_m <- pgamma(20/60,shape=alpha,scale=beta)
+cat("\n\nprobabilidad de que el tiempo de espera de tres personas sea a lo más de 20 minutos:",tres_a_lo_m)
+
+#2) ¿Cuál es la probabilidad de que el tiempo de espera de una persona esté entre 5 y 10 segundos?
+
+alpha <- 1
+p_t_esp_5_y_10 <- pgamma(10/3600,shape=alpha,scale = beta) - pgamma(5/3600,shape=alpha,scale=beta)
+cat("\n\nprobabilidad de que el tiempo de espera de una persona esté entre 5 y 10 segundos:",p_t_esp_5_y_10)
+
+#3)	¿Cuál será la probabilidad de que en 15 minutos lleguen a lo más tres personas?
+
+new_lambda <- 12*15/60
+cat("\n\nprobabilidad de que en 15 minutos lleguen a lo más tres personas:",ppois(3,new_lambda))
+
+#4)	¿Cuál es la probabilidad de que el tiempo de espera de tres personas esté entre 5 y 10 segundos?
+alpha <- 3
+p_t_esp_5_y_10 <- pgamma(10/3600,shape=alpha,scale = beta) - pgamma(5/3600,shape=alpha,scale=beta)
+cat("\n\nprobabilidad de que el tiempo de espera de 3 personas esté entre 5 y 10 segundos:",p_t_esp_5_y_10)
+
+#5)	Determine la media y varianza del tiempo de espera de tres personas.alpha <- 3
+alpha <- 3
+media <- alpha*beta
+varianza <- alpha*beta**2
+cat("\n\nMedia:",media,"|| varianza:", varianza)
+
+#6)	¿Cuál será la probabilidad de que el tiempo de espera de tres personas exceda una desviación estándar arriba de la media?
+desv_estd <- sqrt(varianza) 
+t<- desv_estd+media
+p <- 1-pgamma(t,shape=alpha,scale=beta)
+cat("\n\nprobabilidad de que el tiempo de espera de tres personas exceda una desviación estándar arriba de la media:",p)
+
+#7)	Halle la fórmula de la f.d.p para este caso y su dominio. Grafíquela.
+
+denom <- (beta**alpha)*(factorial(alpha-1))
+primer_pt <- 1/denom
+cat("\n\n",primer_pt,"(x^(3-1)) * (e^(-x/(1/12)) --> si x>0, entonces x ∈ (0,∞)\n\n 0 --> si x<=0" )
+
+rango <- media+4*varianza
+X <- seq(0,rango,length.out = 1000)
+fdp <- dgamma(X,shape=alpha,scale=beta)
+plot(X,fdp,type='l',lwd=2,xlab="Horas",ylab="fdp",main="fdp Gamma(α=3, β=1/12)")
+grid()
+
+
+```
+
