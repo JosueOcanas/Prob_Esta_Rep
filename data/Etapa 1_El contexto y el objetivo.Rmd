@@ -47,7 +47,8 @@ M24final = M24[c(2,10:11,13:100,102:108)]
 ```
 
 ```{r}
-summary(M20final)
+summary(M23final)
+summary(M24final)
 ```
 
 
