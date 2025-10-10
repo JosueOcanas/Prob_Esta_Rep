@@ -1,0 +1,154 @@
+<<<<<<< HEAD
+---
+title: "Genero"
+author: "Víctor Hugo Ramírez Ávila"
+date: "2025-10-10"
+output: pdf_document
+---
+
+```{r}
+
+# INTERVALOS DE CONFIANZA POR GÉNERO - p26 (minutos leídos)
+
+
+# Cargar librerías necesarias
+library(dplyr)
+library(ggplot2)
+
+# Leer los datos
+datos <- read.csv("DATA.csv")
+
+#  LIMPIEZA DE DATOS
+lectura <- datos %>%
+  filter(!is.na(p26), p26 >= 0)
+
+# Re-codificar género (ajusta si tus valores son distintos)
+lectura <- lectura %>%
+  mutate(
+    genero = case_when(
+      sexo == 1 ~ "Hombre",
+      sexo == 2 ~ "Mujer",
+      TRUE ~ as.character(sexo)
+    )
+  )
+
+#  FUNCIÓN PARA INTERVALO DE CONFIANZA
+ic_media <- function(x, nivel = 0.95) {
+  n <- length(x)
+  media <- mean(x)
+  s <- sd(x)
+  error <- qt(1 - (1 - nivel)/2, df = n - 1) * s / sqrt(n)
+  return(c(inf = media - error, sup = media + error, media = media))
+}
+
+#  CALCULAR IC POR GÉNERO
+ic_genero <- lectura %>%
+  group_by(genero) %>%
+  summarise(
+    n = n(),
+    media = mean(p26, na.rm = TRUE),
+    inf = ic_media(p26)[1],
+    sup = ic_media(p26)[2]
+  )
+
+print(ic_genero)
+
+#  CALCULAR MEDIA GENERAL (solo para la línea punteada)
+media_general <- mean(lectura$p26, na.rm = TRUE)
+
+#  GRÁFICO COMPARATIVO
+ggplot(ic_genero, aes(x = genero, y = media, color = genero)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = inf, ymax = sup), width = 0.15) +
+  geom_hline(yintercept = media_general, linetype = "dashed", color = "black") +
+  labs(
+    title = "Intervalos de confianza del tiempo de lectura (p26) por género",
+    subtitle = "Línea punteada = promedio general de minutos leídos",
+    y = "Minutos leídos promedio",
+    x = "Género"
+  ) +
+  theme_minimal()
+
+#  PRUEBA T PARA DIFERENCIA ENTRE GÉNEROS
+t_test <- t.test(p26 ~ genero, data = lectura, var.equal = FALSE)
+print(t_test)
+
+```
+
+=======
+---
+title: "Genero"
+author: "Víctor Hugo Ramírez Ávila"
+date: "2025-10-10"
+output: pdf_document
+---
+
+```{r}
+
+# INTERVALOS DE CONFIANZA POR GÉNERO - p26 (minutos leídos)
+
+# Cargar librerías necesarias
+library(dplyr)
+library(ggplot2)
+
+# Leer los datos
+datos <- read.csv("DATA.csv")
+
+# LIMPIEZA DE DATOS
+lectura <- datos %>%
+  filter(!is.na(p26), p26 >= 0)
+
+# Re-codificar género (ajusta si tus valores son distintos)
+lectura <- lectura %>%
+  mutate(
+    genero = case_when(
+      sexo == 1 ~ "Hombre",
+      sexo == 2 ~ "Mujer",
+      TRUE ~ as.character(sexo)
+    )
+  )
+
+#  FUNCIÓN PARA INTERVALO DE CONFIANZA
+ic_media <- function(x, nivel = 0.95) {
+  n <- length(x)
+  media <- mean(x)
+  s <- sd(x)
+  error <- qt(1 - (1 - nivel)/2, df = n - 1) * s / sqrt(n)
+  return(c(inf = media - error, sup = media + error, media = media))
+}
+
+#  CALCULAR IC POR GÉNERO
+ic_genero <- lectura %>%
+  group_by(genero) %>%
+  summarise(
+    n = n(),
+    media = mean(p26, na.rm = TRUE),
+    inf = ic_media(p26)[1],
+    sup = ic_media(p26)[2]
+  )
+
+print(ic_genero)
+
+#  CALCULAR MEDIA GENERAL (solo para la línea punteada)
+media_general <- mean(lectura$p26, na.rm = TRUE)
+
+#  GRÁFICO COMPARATIVO
+ggplot(ic_genero, aes(x = genero, y = media, color = genero)) +
+  geom_point(size = 4) +
+  geom_errorbar(aes(ymin = inf, ymax = sup), width = 0.15) +
+  geom_hline(yintercept = media_general, linetype = "dashed", color = "black") +
+  labs(
+    title = "Intervalos de confianza del tiempo de lectura (p26) por género",
+    subtitle = "Línea punteada = promedio general de minutos leídos",
+    y = "Minutos leídos promedio",
+    x = "Género"
+  ) +
+  theme_minimal()
+
+#  PRUEBA T PARA DIFERENCIA ENTRE GÉNEROS
+t_test <- t.test(p26 ~ genero, data = lectura, var.equal = FALSE)
+print(t_test)
+
+```
+
+>>>>>>> 8c6a5179e817f75ab7c74731cc4d6a4e8b3de435
