@@ -84,9 +84,9 @@ output: pdf_document
 ---
 
 ```{r}
-# ---------------------------------------------------------
+
 # INTERVALOS DE CONFIANZA POR GÉNERO - p26 (minutos leídos)
-# ---------------------------------------------------------
+
 # Cargar librerías necesarias
 library(dplyr)
 library(ggplot2)
@@ -94,7 +94,7 @@ library(ggplot2)
 # Leer los datos
 datos <- read.csv("DATA.csv")
 
-# 1️⃣ LIMPIEZA DE DATOS
+# LIMPIEZA DE DATOS
 lectura <- datos %>%
   filter(!is.na(p26), p26 >= 0)
 
@@ -108,7 +108,7 @@ lectura <- lectura %>%
     )
   )
 
-# 2️⃣ FUNCIÓN PARA INTERVALO DE CONFIANZA
+#  FUNCIÓN PARA INTERVALO DE CONFIANZA
 ic_media <- function(x, nivel = 0.95) {
   n <- length(x)
   media <- mean(x)
@@ -117,7 +117,7 @@ ic_media <- function(x, nivel = 0.95) {
   return(c(inf = media - error, sup = media + error, media = media))
 }
 
-# 3️⃣ CALCULAR IC POR GÉNERO
+#  CALCULAR IC POR GÉNERO
 ic_genero <- lectura %>%
   group_by(genero) %>%
   summarise(
@@ -129,10 +129,10 @@ ic_genero <- lectura %>%
 
 print(ic_genero)
 
-# 4️⃣ CALCULAR MEDIA GENERAL (solo para la línea punteada)
+#  CALCULAR MEDIA GENERAL (solo para la línea punteada)
 media_general <- mean(lectura$p26, na.rm = TRUE)
 
-# 5️⃣ GRÁFICO COMPARATIVO
+#  GRÁFICO COMPARATIVO
 ggplot(ic_genero, aes(x = genero, y = media, color = genero)) +
   geom_point(size = 4) +
   geom_errorbar(aes(ymin = inf, ymax = sup), width = 0.15) +
@@ -145,7 +145,7 @@ ggplot(ic_genero, aes(x = genero, y = media, color = genero)) +
   ) +
   theme_minimal()
 
-# 6️⃣ PRUEBA T PARA DIFERENCIA ENTRE GÉNEROS
+#  PRUEBA T PARA DIFERENCIA ENTRE GÉNEROS
 t_test <- t.test(p26 ~ genero, data = lectura, var.equal = FALSE)
 print(t_test)
 
