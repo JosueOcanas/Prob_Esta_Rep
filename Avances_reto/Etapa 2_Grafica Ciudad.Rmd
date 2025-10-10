@@ -88,3 +88,106 @@ ggplot(Mfinal %>% filter(region=="Sur"), aes(x = p26, y = material_leido)) +
 
 ```
 
+```{r}
+# --- 1. Cargar librerías necesarias ---
+library(tidyverse)
+library(ggplot2)
+
+# --- 2. Cargar los datos (Asegúrate que el archivo esté en tu directorio de trabajo) ---
+# Si tu archivo se llama "DATA.csv", usa la siguiente línea:
+datos <- read_csv("DATA.csv")
+
+# --- 3. Limpieza y preparación de datos ---
+
+# Convertir la variable de tiempo leído 'p26' a numérica.
+# Coerceamos a NA los valores no numéricos (como los que dejaste en blanco o códigos especiales)
+# El argumento na.rm = TRUE en los cálculos subsiguientes se encargará de ignorarlos.
+datos <- datos %>%
+  mutate(tiempo_leido_min = as.numeric(p26))
+
+# --- 4. Creación de la variable 'region' ---
+
+# Definir los códigos INEGI para cada región
+norte_codes <- c(2, 3, 5, 8, 10, 19, 26, 28)
+sur_codes <- c(4, 7, 12, 20, 23, 27, 30, 31)
+
+datos <- datos %>%
+  mutate(
+    region = case_when(
+      entidad %in% norte_codes ~ "Norte",
+      entidad %in% sur_codes ~ "Sur",
+      TRUE ~ "Centro" # El resto de las entidades son el Centro
+    )
+  )
+
+# Convertir la nueva variable 'region' a factor para que ggplot la trate como categórica
+datos$region <- factor(datos$region, levels = c("Norte", "Centro", "Sur"))
+
+# --- 5. Cálculo de las Estadísticas por Región ---
+
+# Función para calcular los Intervalos de Confianza (IC) al 95%
+calcular_ic <- function(x) {
+  # Remover NAs para el cálculo
+  x <- x[!is.na(x)]
+
+  # Si no hay datos, retornar NA
+  if (length(x) == 0) {
+    return(data.frame(media = NA, ic_min = NA, ic_max = NA))
+  }
+
+  media <- mean(x)
+  desviacion_estandar <- sd(x)
+  n <- length(x)
+
+  # Valor Z/T para el 95% de confianza (usando t-student, más robusto)
+  # qnorm(0.975) o qt(0.975, df = n - 1)
+  t_critico <- qt(0.975, df = n - 1)
+  margen_error <- t_critico * (desviacion_estandar / sqrt(n))
+
+  return(data.frame(
+    media = media,
+    ic_min = media - margen_error,
+    ic_max = media + margen_error
+  ))
+}
+
+# Aplicar la función a cada región
+resultados <- datos %>%
+  group_by(region) %>%
+  summarise(
+    calcular_ic(tiempo_leido_min)
+  ) %>%
+  unnest(cols = c(media, ic_min, ic_max))
+
+# Calcular la media global (para la línea de referencia)
+media_global <- mean(datos$tiempo_leido_min, na.rm = TRUE)
+
+# Imprimir resultados de la tabla
+print(resultados)
+print(paste("Media Global de Tiempo Leído:", round(media_global, 2)))
+
+
+# --- 6. Generación de la Gráfica de Intervalos de Confianza (Similar a la imagen) ---
+
+ggplot(resultados, aes(x = region, y = media, color = region)) +
+  # Puntos que representan la media muestral
+  geom_point(size = 4) +
+  # Barras de error que representan el Intervalo de Confianza al 95%
+  geom_errorbar(aes(ymin = ic_min, ymax = ic_max), width = 0.2, size = 1) +
+  # Línea de referencia: la media global de todo el país
+  geom_hline(yintercept = media_global, linetype = "dashed", color = "gray50", size = 0.8) +
+  # Etiquetas y Títulos
+  labs(
+    title = "Tiempo Leído Promedio con Intervalos de Confianza al 95% por Región",
+    subtitle = "Si los IC no se solapan, hay evidencia de diferencia estadística.",
+    x = "Región Geográfica",
+    y = "Tiempo Leído Promedio (Minutos/Tiempo)",
+    caption = "Línea punteada: Media Global de la muestra."
+  ) +
+  # Estilo visual
+  theme_minimal() +
+  scale_color_manual(values = c("Norte" = "#1F78B4", "Centro" = "#33A02C", "Sur" = "#E31A1C")) +
+  theme(legend.position = "none",
+        plot.title = element_text(face = "bold"))
+```
+
