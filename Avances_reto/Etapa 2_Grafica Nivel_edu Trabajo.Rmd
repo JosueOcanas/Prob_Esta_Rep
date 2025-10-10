@@ -9,7 +9,6 @@ library(tidyverse)
 library(here)
 
 Mfinal = read.csv("DATA.csv")
-
 ```
 
 #Vamos a hacer las gráficas de tiempo leido vs libros leidos y los vamos a segmentar en nivel educativo y trabajo para ver si esto hace una diferencia en lo que una persona lee. (con esto podemos evitarnos hacer as desviaciones estandars de los datos que queremos segmentar)
@@ -42,6 +41,8 @@ Nivel <- Mfinal %>%
     IC_inf = media - t_crit * se,              # límite inferior
     IC_sup = media + t_crit * se               # límite superior
   )
+
+
 
 ggplot(Nivel, aes(x = factor(nivel), y = media)) +
   geom_point(size = 3, color = "black") +  # puntos del promedio
