@@ -26,3 +26,70 @@ ggplot(Mfinal, aes(x=p26, y=material_leido,color=as.factor(nivel)))+ geom_point(
 ggplot(Mfinal, aes(x=p26, y=material_leido,color=as.factor(cond_act)))+ geom_point(size=3, ) +  scale_color_brewer(palette = "Set1")  + labs(title="Libros leídos V.S. tiempo que lee continuamente", subtitle="Segmentado por actividad que desempeña", x="Tiempo que lee continuamente",y="Material leido", color="Actividad que desempeña")+ theme_minimal()
 ```
 
+#Intervalos de confianza de Nivel educativo
+```{r}
+library(tidyverse)
+
+# Calcular resumen estadístico por nivel educativo
+Nivel <- Mfinal %>%
+  group_by(nivel) %>% # agrupa por categoría
+  summarise(
+    n = n(),                              # número de observaciones
+    media = mean(p26, na.rm = TRUE),  # promedio
+    sd = sd(p26, na.rm = TRUE),       # desviación estándar
+    se = sd / sqrt(n),                         # error estándar = s / sqrt(n)
+    t_crit = qt(0.975, df = n - 1),            # valor t para 95% de confianza
+    IC_inf = media - t_crit * se,              # límite inferior
+    IC_sup = media + t_crit * se               # límite superior
+  )
+
+ggplot(Nivel, aes(x = factor(nivel), y = media)) +
+  geom_point(size = 3, color = "black") +  # puntos del promedio
+  geom_errorbar(aes(ymin = IC_inf, ymax = IC_sup), width = 0.2, color = "black") +
+  labs(
+    title = "Promedio del tiempo leído por nivel educativo (IC 95%)",
+    x = "Nivel educativo (0 = sin estudios, 9 = doctorado)",
+    y = "Tiempo promedio leído"
+  ) +
+  theme_minimal()
+
+anova_result <- aov(p26 ~ factor(nivel), data = Mfinal)
+summary(anova_result)
+
+
+```
+
+#intervalos confianza Actividad que desempeña
+```{r}
+library(tidyverse)
+Actividad<-Mfinal %>%
+  group_by(cond_act) %>%
+  summarise(
+    n=n(),
+    media=mean(p26, na.rm=TRUE) ,
+    sd=sd(p26,na.rm=TRUE),
+    se= sd/sqrt(n),
+    t_crit=qt(0.975,df=n-1),
+    cola_abajo=media-t_crit*se,
+    cola_superior= media+t_crit*se
+  )
+
+ggplot(Actividad, aes(x = factor(cond_act), y = media)) +
+  geom_point(size = 3, color = "black") +  # puntos del promedio
+  geom_errorbar(aes(ymin = cola_abajo, ymax = cola_superior), width = 0.2, color = "black") +
+  labs(
+    title = "Promedio del tiempo leído por Actividad que desempeña (IC 95%)",
+    x = "actividad que hace cada persona",
+    y = "Tiempo promedio leído"
+  ) +
+  theme_minimal()
+
+
+annova<- aov(p26 ~ factor(cond_act),data=Mfinal)
+summary(annova)
+  
+
+```
+
+
+
