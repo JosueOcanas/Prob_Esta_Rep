@@ -124,7 +124,7 @@ ggplot(Nivel, aes(x = factor(nivel_segmentado), y = media)) +
   geom_errorbar(aes(ymin = IC_inf, ymax = IC_sup), width = 0.2, color = "black") +
   labs(
     title = "Promedio del tiempo leído por la segmentación del nivel educativo (IC 95%)",
-    x = "Nivel educativo (0 = sin estudios, 9 = doctorado)",
+    x = "Nivel educativo (0 = bajo o nula educación, 1= educación media, 2= educación superior)",
     y = "Tiempo promedio leído"
   ) +
   theme_minimal()
@@ -154,7 +154,7 @@ ggplot(Actividad, aes(x = factor(cond_act_segmentado), y = media)) +
   geom_errorbar(aes(ymin = cola_abajo, ymax = cola_superior), width = 0.2, color = "black") +
   labs(
     title = "Promedio del tiempo leído por la segmentación de la Actividad que desempeña (IC 95%)",
-    x = "actividad que hace cada persona",
+    x = "(0= más tiempo libre, 1= tiempo libre equilibrado, 2= menor tiempo libre)",
     y = "Tiempo promedio leído"
   ) +
   theme_minimal()
