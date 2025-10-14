@@ -16,7 +16,7 @@ library(dplyr)
 library(ggplot2)
 
 # Leer los datos
-datos <- read.csv("DATA.csv")
+datos <- read.csv("DATA_NEW.csv")
 
 #  LIMPIEZA DE DATOS
 lectura <- datos %>%
@@ -92,7 +92,7 @@ library(dplyr)
 library(ggplot2)
 
 # Leer los datos
-datos <- read.csv("DATA.csv")
+datos <- read.csv("DATA_NEW.csv")
 
 # LIMPIEZA DE DATOS
 lectura <- datos %>%
