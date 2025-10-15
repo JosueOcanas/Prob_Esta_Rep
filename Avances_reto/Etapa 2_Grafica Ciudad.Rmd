@@ -8,7 +8,7 @@ output: html_document
 library(tidyverse)
 library(here)
 
-Mfinal = read.csv("DATA.csv")
+Mfinal = read.csv("DATA_NEW.csv")
 
 ```
 
@@ -95,7 +95,7 @@ library(ggplot2)
 
 # --- 2. Cargar los datos (Asegúrate que el archivo esté en tu directorio de trabajo) ---
 # Si tu archivo se llama "DATA.csv", usa la siguiente línea:
-datos <- read_csv("DATA.csv")
+datos <- read_csv("DATA_NEW.csv")
 
 # --- 3. Limpieza y preparación de datos ---
 
