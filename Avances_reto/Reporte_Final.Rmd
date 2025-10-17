@@ -1,4 +1,59 @@
 ---
-title: "Reporte_Final"
-output: html_notebook
+title: "Reporte Final"
+output:
+  html_notebook: default
+  pdf_document: default
+  word_document: default
 ---
+
+# Resumen
+
+-   Introduce la problemática muy brevemente
+
+-   Indica la forma en que lo abordaste (metodos y técnicas estadísticas)
+
+-   Enuncia tus principales resultados y tus conclusiones
+
+<hr>
+
+# Introducción
+
+Se aborda la problemática general y se concluye con el problema que se abordará (pregunta rectora) y su justificación. Contiene al menos cuatro citas de autores (en formato APA) que aborden el tema y tus propios comentarios y reflexiones.
+
+# Metodología
+
+-   Se menciona cómo se abordará la pregunta rectora (es decir, a través del análisis de qué variables o preguntas secundarias)
+
+-   Se menciona la fuente de datos, la población objetivo y la dimensión de los datos. Así como la elección de la muestra y tipo de muestreo, limpieza de datos, etc
+
+-   Se indican los análisis estadísticos que van a utilizar, justificando por qué dicho análisis es útil para responder a su pregunta de investigación.
+
+-   Se propone el nivel de significación del análisis estadístico
+
+# Resultados
+
+-   Se incluyen los resultados del análisis exploratorio de las variables asociadas (descriptivo). Separa las variables cuantitativas de las cualitativas, haz tablas resumen de medidas estadísticas y gráficos por variable. Comenta e interpreta las tablas y gráficos que incluyas
+
+-   Se incluye el análisis estadístico inferencial: al menos cuatro intervalos de confianza y tres pruebas de hipótesis de dos poblaciones (diferencia de medias o de proporciones o cociente de varianzas, Chi cuadrada o ANOVA): Retoma la [Etapa 3](https://experiencia21.tec.mx/courses/618596/assignments/20581838 "Etapa 3: Análisis Inferencial") para revisar esto. Comenta e interpreta los resultados de este análisis. En caso de que hayas recurrido a otros análisis estadísticos indícalo.
+
+-   Se verifican los supuestos de los modelos probabilísticos usados (normalidad, homogeneidad de varianzas, número de información por casilla, etc)
+
+-   Resume en tablas tus resultados, no es necesario que incluyas los procedimientos paso a paso. Por ejemplo, todos los intervalos de confianza los puedes colocar en una tabla que incluya cota inferior y cota superior. En las pruebas de hipótesis, resume en estadístico de prueba y valor p. Auxíliate de gráficos que muestren varios de tus resultados. Interpreta cada uno de estos recursos gráficos antes o inmediatamente después de ellos.
+
+-   Las pruebas de hipótesis incluyen las hipótesis (H~0~ y H~1~), el valor crítico y el nivel de significancia de la prueba.
+
+# Discusión y Conclusiones
+
+-   Integra la información obtenida a partir del análisis de datos que realizaste
+
+-   Establece limitaciones del análisis. Dentro de las limitaciones incluye los supuestos de los análisis que realizaste.
+
+-   Establece nuevas preguntas de investigación que se suscitaron a partir del análisis (creatividad)
+
+-   Indica qué sí se pudo responder de la pregunta de investigación de acuerdo con su análisis y qué no fue posible.
+
+-   Haz recomendaciones fundamentadas con su estudio y comentar las consecuencias que podría tener no atenderlas.
+
+-   Indicar qué recomendaciones hacia nosotros mismos serían adecuadas de acuerdo con su investigación, si las hubiera.
+
+-   Asegurarse de que las conclusiones se sustenten en el análisis de los datos realizado o en referencias bibliográficas (cítalas)
