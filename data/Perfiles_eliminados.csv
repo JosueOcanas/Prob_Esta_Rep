@@ -1,0 +1,16 @@
+Edad_promedio,sexo,entidad,nivel_segmentado,cond_act_segmentado,Tiempo_lectura_promedio
+60.0,1,Centro,0,1,0.0
+28.53,1,Centro,1,1,32.6316
+25.71,1,Centro,2,1,57.1429
+42.8,1,Norte,0,1,6.0
+31.0,1,Sur,0,1,0.0
+63.62,1,Sur,1,0,13.0769
+23.5,1,Sur,1,1,42.5
+67.36,1,Sur,2,0,33.1818
+27.18,1,Sur,2,1,60.4545
+56.0,2,Centro,0,1,15.0
+60.0,2,Norte,0,1,22.5
+27.26,2,Norte,1,1,36.5789
+54.63,2,Sur,0,1,1.25
+26.17,2,Sur,1,1,50.0
+31.0,2,Sur,2,1,48.6364
