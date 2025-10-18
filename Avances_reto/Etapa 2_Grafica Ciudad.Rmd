@@ -141,7 +141,7 @@ calcular_ic <- function(x) {
 
   # Valor Z/T para el 95% de confianza (usando t-student, más robusto)
   # qnorm(0.975) o qt(0.975, df = n - 1)
-  t_critico <- qt(0.975, df = n - 1)
+  t_critico <- qt(0.80, df = n - 1)
   margen_error <- t_critico * (desviacion_estandar / sqrt(n))
 
   return(data.frame(
@@ -178,7 +178,7 @@ ggplot(resultados, aes(x = region, y = media, color = region)) +
   geom_hline(yintercept = media_global, linetype = "dashed", color = "gray50", size = 0.8) +
   # Etiquetas y Títulos
   labs(
-    title = "Tiempo Leído Promedio con Intervalos de Confianza al 95% por Región",
+    title = "Tiempo Leído Promedio con Intervalos de Confianza al 80% por Región",
     subtitle = "Si los IC no se solapan, hay evidencia de diferencia estadística.",
     x = "Región Geográfica",
     y = "Tiempo Leído Promedio (Minutos/Tiempo)",
