@@ -3,3 +3,54 @@ title: "Etapa 3 seleccion de perfiles"
 output: html_document
 ---
 
+```{r}
+library(tidyverse)
+library(here)
+library(car)
+
+ata=read.csv("variables_perfiles_selecionados.csv")
+```
+
+
+```{r}
+perfil<- ata %>%
+  group_by(sexo,entidad,nivel_segmentado,cond_act_segmentado) %>%
+  summarise(
+    n=n(),
+    media=mean(p26,na.rm=TRUE),
+    sd=sd(p26,na.rm = TRUE),
+    se= sd/sqrt(n),
+    t_crit= qt(0.975,df=n-1),
+    lim_inf= media-t_crit*se,
+    lim_sup= media+t_crit*se,
+    .groups='drop'
+  ) %>%
+  mutate(perfil_id=row_number())
+  
+
+ggplot(perfil,aes(x=factor(perfil_id), y=media))+
+  geom_point(size=3, color="black")+
+  geom_errorbar(aes(ymin=lim_inf,ymax=lim_sup),width=0.2,color="black")+
+  labs(
+    title="promedio de tiempo leido por perfil (IC 95%)",
+    x="Numero del pefil",
+    y="Tiempo que pasa leyendo en minutos"
+  )+ 
+  theme_minimal()+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+ata <- ata %>%
+  group_by(sexo, entidad, nivel_segmentado, cond_act_segmentado) %>%
+  mutate(perfil_id = cur_group_id()) %>%  # crea un ID numérico por grupo
+  ungroup()
+
+leveneTest
+shapiro.test(annova$residuals)
+kruskal.test(p26 ~ as.factor(perfil_id), data = ata)
+
+
+
+#shapiro.test()
+
+```
+
+

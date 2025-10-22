@@ -7,6 +7,8 @@ output: html_notebook
 ```{r}
 library(tidyverse)
 library(here)
+library(car)
+
 
 Mfinal = read.csv("DATA_NEW.csv")
 ```
@@ -162,4 +164,8 @@ ggplot(Actividad, aes(x = factor(cond_act_segmentado), y = media)) +
 
 annova<- aov(p26 ~ factor(cond_act_segmentado),data=Mfinal)
 summary(annova)
+
+leveneTest
+shapiro.test(annova$residuals)
+kruskal.test(p26 ~ as.factor(cond_act_segmentado), data = ata)
 ```
