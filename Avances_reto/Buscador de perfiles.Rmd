@@ -1,0 +1,48 @@
+---
+title: "Buscador de perfiles"
+output: html_document
+---
+
+```{r}
+buscador_de_perfiles <- function(sexo_arg, entidad_arg, nivel_educativo_arg, actividad_arg) {
+  library(tidyverse)
+  
+  data <- read.csv("Perfiles.csv", check.names = TRUE, stringsAsFactors = FALSE)
+  
+  entidad_arg <- str_to_title(trimws(entidad_arg))
+  data$entidad <- str_to_title(trimws(data$entidad))
+  
+  perfil <- data %>%
+    filter(
+      sexo == sexo_arg,
+      entidad == entidad_arg,
+      nivel_segmentado == nivel_educativo_arg,
+      cond_act_segmentado == actividad_arg
+    )
+  
+  if (nrow(perfil) == 0) {
+    message("⚠️ No se encontró ningún perfil con esos valores.")
+    return(invisible(NULL))
+  }
+  
+  perfil <- perfil[1, ]
+  
+  cat(
+    "📊 Perfil encontrado:\n",
+    "• Edad promedio: ", perfil$Edad_promedio, "\n",
+    "• Sexo: ", perfil$sexo, "\n",
+    "• Entidad: ", perfil$entidad, "\n",
+    "• Nivel educativo: ", perfil$nivel_segmentado, "\n",
+    "• Actividad: ", perfil$cond_act_segmentado, "\n",
+    "• Tiempo de lectura promedio: ", perfil$Tiempo_lectura_promedio, "\n",
+    sep = ""
+  )
+  
+  invisible(perfil)
+}
+
+#BUSCADOR
+buscador_de_perfiles(2,"sur",2,2)
+
+```
+
