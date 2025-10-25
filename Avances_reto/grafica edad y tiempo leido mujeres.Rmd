@@ -1,0 +1,30 @@
+---
+title: "grafica edad y tiempo leido mujeres"
+output: html_document
+---
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+Mfinal <- read.csv("DATA_NEW.csv")
+
+# Filtrar y ordenar
+Mfinal_filtrado <- Mfinal %>%
+  filter(sexo == 2) %>%
+  arrange(edad)
+
+ggplot(Mfinal_filtrado, aes(x = edad, y = p26)) +
+  geom_point(alpha = 0.00001, color = "gray40") +   # puntos de referencia
+  geom_smooth(method = "loess", color = "#E41A1C", linewidth = 1.5, se = FALSE) +
+  labs(
+    title = "Libros leídos V.S. tiempo que lee continuamente",
+    subtitle = "Tendencia suavizada",
+    x = "Edad",
+    y = "Tiempo que lee continuamente"
+  ) +
+  theme_minimal()
+
+
+```
+
